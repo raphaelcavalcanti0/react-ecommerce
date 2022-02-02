@@ -1,9 +1,9 @@
 import Navbar from "../Navbar/Navbar";
 
-const Login = () => {
+const Signup = () => {
     return (
         <Navbar />
     );
 };
 
-export default Login;
+export default Signup;
