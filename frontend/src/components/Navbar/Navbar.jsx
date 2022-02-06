@@ -1,13 +1,14 @@
-import { Navibar, Left, SearchWrapper, SearchInput, Center, Right, LoginBtn, SignUpBtn } from "./styles"
+import { Navibar, Left, SearchWrapper, SearchInput, Center, Right, LoginBtn, SignUpBtn, User, UserName } from "./styles"
 import SearchIcon from '@material-ui/icons/Search'
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { Link } from 'react-router-dom'
 import { useContext } from "react";
 import { LoginContext } from "../../services/Context";
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const Navbar = () => {
 
-    const { isLoggedIn } = useContext(LoginContext)
+    const { isLoggedIn, getUser } = useContext(LoginContext)
 
     if (isLoggedIn) {
         return (
@@ -30,6 +31,10 @@ const Navbar = () => {
                         </LoginBtn>
                     </Link>
                     <ShoppingCartOutlinedIcon style={{ marginRight: '20px', color: 'white' }} />
+                    <User>
+                        <UserName>{getUser.user.firstName}</UserName>
+                        <AccountCircle style={{ color: 'white' }} />
+                    </User>
                 </Right>
             </Navibar>
         );

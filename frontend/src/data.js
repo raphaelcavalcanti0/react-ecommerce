@@ -1,5 +1,3 @@
-import { Ballot } from "@material-ui/icons"
-
 export const sliderItems = [
     {
         id: 1,
@@ -92,6 +90,7 @@ export const users = [
         id: 0,
         firstName: "Raphael",
         lastName: "Cavalcanti",
-        email: "bla@gmail.com"
+        email: "bla@gmail.com",
+        password: "123"
     },
 ]

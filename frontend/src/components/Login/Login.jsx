@@ -2,35 +2,39 @@ import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import { Form, Container, Input, Button } from "./styles";
 import { useNavigate } from "react-router-dom";
-import { users } from "../../data";
-import { useState } from "react";
-import { LoginContext } from "../../services/Context";
+import { useContext, useState } from "react";
+import { LoginContext, UserContext } from "../../services/Context";
 
 
 const Login = () => {
 
     const navigate = useNavigate()
 
-    const [userList, setUser] = useState({})
+    const { setIsLoggedIn, getUser, setUser } = useContext(LoginContext)
+    const { usersList } = useContext(UserContext)
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     const handleClick = () => {
-        users.map(user => {
-            if (users.length !== 0) {
-                setUser(user)
+        usersList.forEach(user => {
+            if (email.trim() !== '' && password.trim() !== '') {
+                if (user.email === email.trim() && user.password === password.trim()) {
+                    setUser({ ...getUser, user })
+                    setIsLoggedIn(true)
+                    navigate('/')
+                }
             }
         })
-        console.log(users)
-        console.log(userList)
-        //navigate('/')
     }
 
     return (
         <>
             <Navbar />
             <Container>
-                <Form action="#">
-                    <Input placeholder="Email" />
-                    <Input placeholder="Password" type={'password'} />
+                <Form action="#" onSubmit={(event) => event.preventDefault()}>
+                    <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                    <Input placeholder="Password" type={'password'} onChange={(e) => setPassword(e.target.value)} />
                     <Button onClick={handleClick}>Login</Button>
                 </Form>
             </Container>

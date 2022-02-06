@@ -84,3 +84,21 @@ export const SignUpBtn = styled.button`
         cursor: pointer;
     }
 `;
+
+export const User = styled.div`
+    display: flex;
+    margin-right: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const UserName = styled.div`
+    display: flex;
+    margin-right: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+`;

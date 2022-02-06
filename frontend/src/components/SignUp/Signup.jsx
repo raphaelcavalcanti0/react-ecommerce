@@ -32,11 +32,9 @@ const Signup = () => {
                 password: password
             }])
             navigate("/login")
-
         } else {
 
         }
-
     }
 
     return (
