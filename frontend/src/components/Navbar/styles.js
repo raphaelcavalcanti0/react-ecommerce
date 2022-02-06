@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
-export const Navbar = styled.div`
+export const Navibar = styled.div`
     margin: 0px;
-    height: 60px;
+    height: 7vh;
     width: 100%;
-    background-color: crimson;
+    background-color: rgba(237, 15, 83, 1);
     display: flex;
     align-items: center;
     justify-content: space-between;

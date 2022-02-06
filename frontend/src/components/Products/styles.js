@@ -7,6 +7,17 @@ export const Wrapper = styled.div`
     flex-wrap: wrap;
 `;
 
+export const HeadTitle = styled.div`
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    font-family: 'Urbanist', sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+    weight: 100%;
+    padding: 10px;
+`;
+
 export const Container = styled.div`
     display: flex;
     justify-content: center;

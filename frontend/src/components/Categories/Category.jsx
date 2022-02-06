@@ -1,14 +1,18 @@
 import CategoryItem from './CategoryItem';
-import { Container } from './styles'
+import { Container, HeadTitle } from './styles'
 import { categories } from '../../data';
 
 const Category = () => {
     return (
-        <Container>
-            {categories.map(item => (
-                <CategoryItem item={item} key={item.id} />
-            ))}
-        </Container>
+        <>
+            <HeadTitle>Variedades</HeadTitle>
+            <Container>
+                {categories.map(item => (
+                    <CategoryItem item={item} key={item.id} />
+                ))}
+            </Container>
+            
+        </>
     );
 };
 

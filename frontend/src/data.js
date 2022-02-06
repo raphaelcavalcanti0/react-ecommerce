@@ -1,3 +1,5 @@
+import { Ballot } from "@material-ui/icons"
+
 export const sliderItems = [
     {
         id: 1,
@@ -82,5 +84,14 @@ export const products = [
         img: "https://res.cloudinary.com/evino/image/upload/q_auto:good,fl_progressive:steep,f_auto,dpr_1.0,h_360/v1/products/1000004080-standing-front.png",
         title: "Château Saint-Bonnet Médoc AOP 2017",
         price: "1,00"
+    },
+]
+
+export const users = [
+    {
+        id: 0,
+        firstName: "Raphael",
+        lastName: "Cavalcanti",
+        email: "bla@gmail.com"
     },
 ]
