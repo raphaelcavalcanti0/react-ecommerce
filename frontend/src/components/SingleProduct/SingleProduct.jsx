@@ -4,10 +4,12 @@ import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import { products } from '../../data';
 import { Add, Remove } from '@material-ui/icons';
+import { useParams } from 'react-router-dom';
 
 const SingleProduct = () => {
-    const product = products[0]
     const [number, setNumber] = useState(1)
+    const { id } = useParams()
+    const product = products[id]
 
     const handleRemove = () => {
         if (number > 1) {

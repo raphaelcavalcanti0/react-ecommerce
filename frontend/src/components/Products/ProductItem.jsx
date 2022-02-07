@@ -13,7 +13,7 @@ const ProductItem = ({ item }) => {
                         <ShoppingCartOutlined />
                     </Icon>
                     <Icon>
-                        <Link to="/product" style={{ color: 'black' }}>
+                        <Link to={`/product/${item.uuid}`} style={{ color: 'black' }}>
                             <SearchOutlined />
                         </Link>
                     </Icon>
