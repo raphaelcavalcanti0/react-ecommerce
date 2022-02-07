@@ -1,5 +1,6 @@
 import { Circle, Container, Image, Info, Icon, Wrapper2 } from "./styles";
 import { ShoppingCartOutlined, SearchOutlined, FavoriteBorderOutlined } from '@material-ui/icons'
+import { Link } from 'react-router-dom'
 
 const ProductItem = ({ item }) => {
     return (
@@ -12,7 +13,9 @@ const ProductItem = ({ item }) => {
                         <ShoppingCartOutlined />
                     </Icon>
                     <Icon>
-                        <SearchOutlined />
+                        <Link to="/product" style={{ color: 'black' }}>
+                            <SearchOutlined />
+                        </Link>
                     </Icon>
                     <Icon>
                         <FavoriteBorderOutlined />
