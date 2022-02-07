@@ -1,5 +1,5 @@
 import express from "express";
-import { apiRoutes } from "./routes/ApiRoutes";
+import { apiRoutes } from "./routes/apiRoutes";
 
 const app = express();
 const port = 8000;

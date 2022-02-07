@@ -1,7 +1,6 @@
 import { Router, Response, Request, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-
 export const apiRoutes = Router();
 
 apiRoutes.get('/api/v1/products',
