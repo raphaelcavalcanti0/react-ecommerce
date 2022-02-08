@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./",
     "build": "tsc -p .",
-    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts"
+    "dev": "SET NODE_ENV=development && ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts"
   },
   "author": "",
   "license": "ISC",

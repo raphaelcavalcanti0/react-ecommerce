@@ -1,3 +1,11 @@
-import dev from "../config/dev";
+import { Pool } from "pg";
 
-const dbHost = dev["dbHost"] as string
+const db = new Pool({
+    user: "postgres",
+    password: "078197",
+    database: "ecommerce",
+    host: "localhost",
+    port: 5432
+});
+
+export default db;
