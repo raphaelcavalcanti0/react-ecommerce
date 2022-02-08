@@ -1,5 +1,5 @@
 import { user } from "../models/userModel";
-import db from "../db/db";
+import { db } from "../db/db";
 
 class UserRepository {
     async findAllUsers(): Promise<any> {
