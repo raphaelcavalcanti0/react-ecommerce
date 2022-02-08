@@ -1,4 +1,4 @@
 **/node_modules
 **/.vscode/**
 **/dist/**
-server/src/db
+/server/src/db
