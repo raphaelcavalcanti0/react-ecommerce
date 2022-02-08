@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors"
 import { apiRoutes } from "./routes/apiRoutes";
+import { userRoutes } from "./routes/userRoutes";
+
 
 const app = express();
 const port = 8000;
@@ -15,6 +17,7 @@ app.use(cors({
 
 // Routes
 app.use(apiRoutes)
+app.use(userRoutes)
 
 // Starting server
 app.listen(port, () => {
