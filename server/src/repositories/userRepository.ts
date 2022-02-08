@@ -32,7 +32,7 @@ class UserRepository {
         }
     }
 
-    async create(user: User): Promise<void> {
+    async create(user: User): Promise<string> {
         user.profile = "user"
 
         const values = [user.firstname, user.lastname, user.email,
@@ -41,13 +41,17 @@ class UserRepository {
         const queryString = `
             INSERT INTO users (firstname, lastname, 
                 email, password, profile)
-            VALUES ($1, $2, $3, $4, $5);
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING uuid;
             `
 
         try {
             const { rows } = await db.query<{ uuid: string }>(queryString, values)
+            const [newUser] = rows
+            return newUser.uuid
         } catch (error) {
             console.log(error)
+            return ""
         }
     }
 

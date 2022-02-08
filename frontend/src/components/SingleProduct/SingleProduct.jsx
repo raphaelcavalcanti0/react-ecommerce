@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AddCardBtn, AddContainer, Amount, AmountContainer, Container, Desc, Image, ImgContainer, InfoContainer, Price, Title, Wrapper } from './styles';
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
-import { products } from '../../data';
 import { Add, Remove } from '@material-ui/icons';
 import { useParams } from 'react-router-dom';
 
+
 const SingleProduct = () => {
     const [number, setNumber] = useState(1)
-    const { id } = useParams()
-    const product = products[id]
+    const { uuid } = useParams()
+    const [product, setProduct] = useState({})
+
+    const fetchData = async () => {
+        const response = await fetch(`http://localhost:8000/api/v1/products/${uuid}`)
+        const data = await response.json()
+        setProduct(data)
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     const handleRemove = () => {
         if (number > 1) {

@@ -2,13 +2,23 @@ import { Navibar, Left, SearchWrapper, SearchInput, Center, Right, LoginBtn, Sig
 import SearchIcon from '@material-ui/icons/Search'
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { Link } from 'react-router-dom'
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { LoginContext } from "../../services/Context";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const Navbar = () => {
 
-    const { isLoggedIn, getUser } = useContext(LoginContext)
+    const { isLoggedIn, getUser, setUser, uuid } = useContext(LoginContext)
+
+    const fetchData = async () => {
+        const response = await fetch(`http://localhost:8000/api/v1/users/${uuid}`)
+        const data = await response.json()
+        setUser(data)
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     if (isLoggedIn) {
         return (
@@ -32,7 +42,7 @@ const Navbar = () => {
                     </Link>
                     <ShoppingCartOutlinedIcon style={{ marginRight: '20px', color: 'white' }} />
                     <User>
-                        <UserName>{getUser.user.firstName}</UserName>
+                        <UserName>{getUser.user.firstname}</UserName>
                         <AccountCircle style={{ color: 'white' }} />
                     </User>
                 </Right>

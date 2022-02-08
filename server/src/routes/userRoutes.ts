@@ -21,8 +21,9 @@ userRoutes.get('/api/v1/users/:uuid',
 userRoutes.post('/api/v1/users',
     async (req: Request, res: Response, next: NextFunction) => {
         const newUser: User = req.body
-        await userRepository.create(newUser)
-        res.status(StatusCodes.CREATED).send()
+        console.log(newUser)
+        const uuid: string = await userRepository.create(newUser)
+        res.status(StatusCodes.CREATED).send({ uuid })
     })
 
 userRoutes.put('/api/v1/users/:uuid',

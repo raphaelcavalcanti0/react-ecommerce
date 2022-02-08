@@ -15,7 +15,7 @@ ReactDOM.render(
       <Route path="/login" element={<Context><Login /></Context>} />
       <Route path="/logout" element={<Context><Logout /></Context>} />
       <Route path="/signup" element={<Context><Signup /></Context>} />
-      <Route path="/product/:id" element={<Context><SingleProduct /></Context>} />
+      <Route path="/product/:uuid" element={<Context><SingleProduct /></Context>} />
       <Route path="*" element={<>404 NOT FOUND</>} />
     </Routes>
   </BrowserRouter>,
