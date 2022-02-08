@@ -4,7 +4,7 @@ import { db } from "../db/db";
 class UserRepository {
     async findAllUsers(): Promise<User[]> {
         const queryString = `
-            SELECT (uuid, firstname, lastname, email, profile) 
+            SELECT *
             FROM users;
             `
         try {
@@ -63,6 +63,7 @@ class UserRepository {
             `
         const values = [user.firstname, user.lastname, user.email,
         user.password, user.profile, user.uuid]
+
         try {
             const { rows } = await db.query<User>(queryString, values)
         } catch (error) {
