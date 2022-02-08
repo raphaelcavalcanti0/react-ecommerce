@@ -1,7 +1,7 @@
-export type user = {
+export type User = {
     uuid?: string,
-    firstName?: string,
-    lastName?: string,
+    firstname?: string,
+    lastname?: string,
     email?: string,
     password?: string,
     profile?: string

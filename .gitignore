@@ -5,3 +5,8 @@
 /server/src/db/**
 **/server/src/db
 **/server/src/db/**
+/server/sql
+/server/sql/**
+**/server/sql
+**/server/sql/**
+sql/

@@ -1,15 +1,14 @@
-import { user } from "../models/userModel";
+import { User } from "../models/userModel";
 import { db } from "../db/db";
 
 class UserRepository {
-    async findAllUsers(): Promise<any> {
+    async findAllUsers(): Promise<User[]> {
         const queryString = `
-            SELECT (uuid, firstName, lastName, email, profile) 
+            SELECT (uuid, firstname, lastname, email, profile) 
             FROM users;
             `
         try {
-            const { rows } = await db.query<user>(queryString)
-            await db.end()
+            const { rows } = await db.query<User>(queryString)
             return rows
         } catch (error) {
             console.log(error)
@@ -17,57 +16,55 @@ class UserRepository {
         }
     }
 
-    async findById(uuid: string): Promise<user> {
+    async findById(uuid: string): Promise<User> {
         const queryString = `
-            SELECT (uuid, firstName, lastName, email, profile) 
+            SELECT (uuid, firstname, lastname, email, profile) 
             FROM users WHERE uuid=$1;
             `
         const values = [uuid]
         try {
-            const { rows } = await db.query<user>(queryString, values)
-            await db.end()
+            const { rows } = await db.query<User>(queryString, values)
             const [user] = rows
-            return user || {}
+            return user
         } catch (error) {
             console.log(error)
             return {}
         }
     }
 
-    async create(user: user): Promise<void> {
+    async create(user: User): Promise<void> {
         user.profile = "user"
 
-        const values = [user.firstName, user.lastName, user.email,
+        const values = [user.firstname, user.lastname, user.email,
         user.password, user.profile]
 
         const queryString = `
-            INSERT INTO users (firstName, lastName, email, password, profile)
+            INSERT INTO users (firstname, lastname, 
+                email, password, profile)
             VALUES ($1, $2, $3, $4, $5);
             `
 
         try {
-            const { rows } = await db.query(queryString, values)
-            await db.end()
+            const { rows } = await db.query<{ uuid: string }>(queryString, values)
         } catch (error) {
             console.log(error)
         }
     }
 
-    async update(user: user): Promise<void> {
+    async update(user: User): Promise<void> {
         const queryString = `
             UPDATE users SET 
-            firstName=$1,
-            lastName=$2,
+            firstname=$1,
+            lastname=$2,
             email=$3,
             password=$4,
             profile=$5
             WHERE uuid=$6;
             `
-        const values = [user.firstName, user.lastName, user.email,
+        const values = [user.firstname, user.lastname, user.email,
         user.password, user.profile, user.uuid]
         try {
-            const { rows } = await db.query<user>(queryString, values)
-            await db.end()
+            const { rows } = await db.query<User>(queryString, values)
         } catch (error) {
             console.log(error)
         }
@@ -79,8 +76,7 @@ class UserRepository {
             `
         const values = [uuid]
         try {
-            const { rows } = await db.query<user>(queryString, values)
-            await db.end()
+            const { rows } = await db.query<User>(queryString, values)
         } catch (error) {
             console.log(error)
         }
