@@ -7,11 +7,8 @@ class UserRepository {
             SELECT (uuid, firstName, lastName, email, profile) 
             FROM users;
             `
-        const queryString2 = `
-            SELECT NOW()
-            `
         try {
-            const { rows } = await db.query<user>(queryString2)
+            const { rows } = await db.query<user>(queryString)
             await db.end()
             return rows
         } catch (error) {
