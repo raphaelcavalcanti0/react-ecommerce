@@ -19,6 +19,7 @@ app.use(cors({
 app.use(session({
     secret: "64thatsmysecretkey64",
     cookie: {
+        httpOnly: true,
         maxAge: 1 * 60 * 60 * 1000 /* 1 hour*/
     }
 }))

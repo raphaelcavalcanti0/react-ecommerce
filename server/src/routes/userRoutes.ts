@@ -2,6 +2,8 @@ import { Router, Response, Request, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { User } from '../models/userModel';
 import userRepository from '../repositories/userRepository';
+import { compareSync } from 'bcryptjs';
+import { Login } from '../models/loginModel';
 
 export const userRoutes = Router();
 
@@ -21,7 +23,6 @@ userRoutes.get('/api/v1/users/:uuid',
 userRoutes.post('/api/v1/users',
     async (req: Request, res: Response, next: NextFunction) => {
         const newUser: User = req.body
-        console.log(newUser)
         const uuid: string = await userRepository.create(newUser)
         res.status(StatusCodes.CREATED).send({ uuid })
     })
@@ -40,4 +41,17 @@ userRoutes.delete('/api/v1/users/:uuid',
         const uuid: string = req.params.uuid
         await userRepository.delete(uuid)
         res.status(StatusCodes.OK).send()
+    })
+
+userRoutes.post('/api/v1/login',
+    async (req: Request, res: Response, next: NextFunction) => {
+        const loginInfo: Login = req.body
+        const user = await userRepository.findByEmail(loginInfo.email)
+        const compare = compareSync(loginInfo.password, String(user.password))
+        console.log(compare)
+        if (compare) {
+            res.status(StatusCodes.OK).send(JSON.stringify(user.uuid))
+        } else {
+            res.status(StatusCodes.UNAUTHORIZED).send()
+        }
     })

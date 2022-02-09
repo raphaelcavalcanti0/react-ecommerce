@@ -38,9 +38,8 @@ const Signup = () => {
             })
             const data = await response.json()
             setUuid(data.uuid)
-            console.log(data.uuid)
             setIsLoggedIn(true)
-            navigate('/products')
+            navigate('/')
         } else {
 
         }
@@ -50,7 +49,7 @@ const Signup = () => {
         <>
             <Navbar />
             <Container>
-                <Form action="#" onSubmit={(event) => event.preventDefault()}>
+                <Form action="/signup" onSubmit={(event) => event.preventDefault()}>
                     <Input placeholder="Email"
                         onChange={(e) => setEmail(e.target.value)} />
                     <Input placeholder="First Name"

@@ -11,9 +11,12 @@ const Navbar = () => {
     const { isLoggedIn, getUser, setUser, uuid } = useContext(LoginContext)
 
     const fetchData = async () => {
-        const response = await fetch(`http://localhost:8000/api/v1/users/${uuid}`)
-        const data = await response.json()
-        setUser(data)
+        if (uuid !== '') {
+            const response = await fetch(`http://localhost:8000/api/v1/users/${uuid}`)
+            const data = await response.json()
+            setUser(data)
+            console.log(data)
+        }
     }
 
     useEffect(() => {
@@ -42,7 +45,7 @@ const Navbar = () => {
                     </Link>
                     <ShoppingCartOutlinedIcon style={{ marginRight: '20px', color: 'white' }} />
                     <User>
-                        <UserName>{getUser.user.firstname}</UserName>
+                        <UserName>{getUser.firstname}</UserName>
                         <AccountCircle style={{ color: 'white' }} />
                     </User>
                 </Right>

@@ -32,18 +32,22 @@ class ProductRepository {
         }
     }
 
-    async create(product: Product): Promise<void> {
+    async create(product: Product): Promise<string> {
         const values = [product.img, product.title, product.price]
 
         const queryString = `
             INSERT INTO products (img, title, price)
-            VALUES ($1, $2, $3);
+            VALUES ($1, $2, $3)
+            RETURNING uuid;
             `
 
         try {
             const { rows } = await db.query<{ uuid: string }>(queryString, values)
+            const [newProduct] = rows
+            return newProduct.uuid
         } catch (error) {
             console.log(error)
+            return ""
         }
     }
 
@@ -59,7 +63,7 @@ class ProductRepository {
         product.uuid]
 
         try {
-            const { rows } = await db.query<Product>(queryString, values)
+            await db.query<Product>(queryString, values)
         } catch (error) {
             console.log(error)
         }
@@ -71,7 +75,7 @@ class ProductRepository {
             `
         const values = [uuid]
         try {
-            const { rows } = await db.query<Product>(queryString, values)
+            await db.query<Product>(queryString, values)
         } catch (error) {
             console.log(error)
         }

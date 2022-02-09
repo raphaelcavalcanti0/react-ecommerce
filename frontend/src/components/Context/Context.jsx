@@ -1,11 +1,10 @@
 import React from 'react';
 import { LoginContext, UserContext } from "../../services/Context";
 import { useState } from "react";
-import { users } from "../../data";
 
 const Context = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [usersList, setUsersList] = useState(users)
+    const [usersList, setUsersList] = useState([])
     const [getUser, setUser] = useState({})
     const [uuid, setUuid] = useState('')
 

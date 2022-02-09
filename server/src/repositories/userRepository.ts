@@ -1,5 +1,6 @@
 import { User } from "../models/userModel";
 import { db } from "../db/db";
+import { hashSync } from "bcryptjs";
 
 class UserRepository {
     async findAllUsers(): Promise<User[]> {
@@ -18,7 +19,7 @@ class UserRepository {
 
     async findById(uuid: string): Promise<User> {
         const queryString = `
-            SELECT (uuid, firstname, lastname, email, profile) 
+            SELECT *
             FROM users WHERE uuid=$1;
             `
         const values = [uuid]
@@ -32,11 +33,29 @@ class UserRepository {
         }
     }
 
+    async findByEmail(email: string): Promise<User> {
+        const queryString = `
+            SELECT *
+            FROM users WHERE email=$1;
+            `
+        const values = [email]
+        try {
+            const { rows } = await db.query<User>(queryString, values)
+            const [user] = rows
+            return user
+        } catch (error) {
+            console.log(error)
+            return {}
+        }
+    }
+
     async create(user: User): Promise<string> {
         user.profile = "user"
 
+        const passwordHash = hashSync(String(user.password), 10)
+
         const values = [user.firstname, user.lastname, user.email,
-        user.password, user.profile]
+            passwordHash, user.profile]
 
         const queryString = `
             INSERT INTO users (firstname, lastname, 
@@ -69,7 +88,7 @@ class UserRepository {
         user.password, user.profile, user.uuid]
 
         try {
-            const { rows } = await db.query<User>(queryString, values)
+            await db.query<User>(queryString, values)
         } catch (error) {
             console.log(error)
         }
@@ -81,7 +100,7 @@ class UserRepository {
             `
         const values = [uuid]
         try {
-            const { rows } = await db.query<User>(queryString, values)
+            await db.query<User>(queryString, values)
         } catch (error) {
             console.log(error)
         }
