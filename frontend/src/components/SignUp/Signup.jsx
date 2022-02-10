@@ -4,26 +4,29 @@ import { Container, Form, Input, Button } from "./styles";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../services/Context";
+import { BaseURL } from "../../services/BaseURL";
 
 const Signup = () => {
 
     const navigate = useNavigate()
 
-    const { setUuid, setIsLoggedIn } = useContext(LoginContext)
+    const { setUuid, setIsLoggedIn, setToken } = useContext(LoginContext)
 
     const [email, setEmail] = useState('')
     const [firstname, setFirstName] = useState('')
     const [lastname, setLastName] = useState('')
     const [password, setPassword] = useState('')
+    const [confPassword, setConfPassword] = useState('')
 
     const handleClick = async () => {
 
         if (email.length !== 0 &&
             firstname.length !== 0 &&
             lastname.length !== 0 &&
-            password.length !== 0) {
+            password.length !== 0 &&
+            confPassword === password) {
 
-            const response = await fetch('http://localhost:8000/api/v1/users', {
+            const response = await fetch(`${BaseURL}/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,10 +39,27 @@ const Signup = () => {
                     profile: ""
                 })
             })
-            const data = await response.json()
-            setUuid(data.uuid)
-            setIsLoggedIn(true)
-            navigate('/')
+
+            if (response.status === 201 || response.status === 200) {
+                const response = await fetch(`${BaseURL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    })
+                })
+                if (response.status === 200) {
+                    const data = await response.json()
+                    setUuid(data.uuid)
+                    setToken(data.token)
+                    setIsLoggedIn(true)
+                    localStorage.setItem('token', data.token)
+                    navigate('/')
+                }
+            }
         } else {
 
         }
@@ -60,6 +80,10 @@ const Signup = () => {
                         autoComplete="off"
                         type={'password'}
                         onChange={(e) => setPassword(e.target.value)} />
+                    <Input placeholder="Confirm Password"
+                        autoComplete="off"
+                        type={'password'}
+                        onChange={(e) => setConfPassword(e.target.value)} />
                     <Button onClick={handleClick}>Sign Up</Button>
                 </Form>
             </Container>

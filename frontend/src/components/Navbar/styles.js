@@ -39,6 +39,7 @@ export const SearchInput = styled.input`
     font-family: 'Urbanist', sans-serif;
     font-weight: 600;
     letter-spacing: 1.5px;
+    padding-left: 10px;
 `;
 
 

@@ -3,13 +3,18 @@ import { HeadTitle, Wrapper } from "./styles";
 import ProductBtn from "../Buttons/ProductBtn";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { BaseURL } from "../../services/BaseURL";
 
 const Products = () => {
 
     const [products, setProducts] = useState([])
 
     const fetchData = async () => {
-        const response = await fetch('http://localhost:8000/api/v1/products')
+        const response = await fetch(`${BaseURL}/products`, {
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            }
+        })
         const data = await response.json()
         setProducts(data)
     }

@@ -4,19 +4,21 @@ import { Form, Container, Input, Button } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { LoginContext } from "../../services/Context";
+import { BaseURL } from "../../services/BaseURL";
 
 const Login = () => {
 
     const navigate = useNavigate()
 
-    const { setUuid, setIsLoggedIn } = useContext(LoginContext)
+    const { setUuid, setIsLoggedIn, setToken } = useContext(LoginContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const handleClick = async () => {
         if (email.toLowerCase().trim() !== '' && password.trim() !== '') {
-            const response = await fetch('http://localhost:8000/api/v1/login', {
+
+            const response = await fetch(`${BaseURL}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -28,8 +30,10 @@ const Login = () => {
             })
             if (response.status === 200) {
                 const data = await response.json()
-                setUuid(data)
+                setUuid(data.uuid)
+                setToken(data.token)
                 setIsLoggedIn(true)
+                localStorage.setItem('token', data.token)
                 navigate('/')
             }
         }

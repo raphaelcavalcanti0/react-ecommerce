@@ -5,22 +5,25 @@ import { Link } from 'react-router-dom'
 import { useContext, useEffect } from "react";
 import { LoginContext } from "../../services/Context";
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { BaseURL } from "../../services/BaseURL";
 
 const Navbar = () => {
 
-    const { isLoggedIn, getUser, setUser, uuid } = useContext(LoginContext)
-
-    const fetchData = async () => {
-        if (uuid !== '') {
-            const response = await fetch(`http://localhost:8000/api/v1/users/${uuid}`)
-            const data = await response.json()
-            setUser(data)
-            console.log(data)
-        }
-    }
+    const { isLoggedIn, setIsLoggedIn, getUser, setUser } = useContext(LoginContext)
 
     useEffect(() => {
-        fetchData()
+        (async (setUser) => {
+            if (localStorage.getItem('token')) {
+                const response = await fetch(`${BaseURL}/login-validate`, {
+                    headers: {
+                        'Authorization': localStorage.getItem('token'),
+                    }
+                })
+                const data = await response.json()
+                setUser(data)
+                setIsLoggedIn(true)
+            }
+        })(setUser, setIsLoggedIn)
     }, [])
 
     if (isLoggedIn) {
@@ -73,7 +76,7 @@ const Navbar = () => {
                     </Link>
                     <Link to="/signup" style={{ textDecoration: 'none' }}>
                         <SignUpBtn>
-                            Sigh Up
+                            Sign Up
                         </SignUpBtn>
                     </Link>
                     <ShoppingCartOutlinedIcon style={{ marginRight: '20px', color: 'white' }} />
@@ -81,7 +84,6 @@ const Navbar = () => {
             </Navibar>
         );
     }
-
 };
 
 export default Navbar;

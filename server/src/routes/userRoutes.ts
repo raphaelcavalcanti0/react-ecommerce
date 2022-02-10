@@ -4,6 +4,7 @@ import { User } from '../models/userModel';
 import userRepository from '../repositories/userRepository';
 import { compareSync } from 'bcryptjs';
 import { Login } from '../models/loginModel';
+import { sign, SignOptions, verify } from "jsonwebtoken";
 
 export const userRoutes = Router();
 
@@ -46,12 +47,27 @@ userRoutes.delete('/api/v1/users/:uuid',
 userRoutes.post('/api/v1/login',
     async (req: Request, res: Response, next: NextFunction) => {
         const loginInfo: Login = req.body
-        const user = await userRepository.findByEmail(loginInfo.email)
+        const user: User = await userRepository.findByEmail(loginInfo.email)
         const compare = compareSync(loginInfo.password, String(user.password))
-        console.log(compare)
         if (compare) {
-            res.status(StatusCodes.OK).send(JSON.stringify(user.uuid))
+            const jwtPayload = { user: user };
+            const jwtOptions: SignOptions = { subject: user.uuid, expiresIn: '5y' };
+            const secretKey = 'SECRET_KEY';
+            const token = sign(jwtPayload, secretKey, jwtOptions);
+
+            res.status(StatusCodes.OK).send(JSON.stringify({ uuid: user.uuid, token: token }))
         } else {
             res.status(StatusCodes.UNAUTHORIZED).send()
+        }
+    })
+
+userRoutes.get('/api/v1/login-validate',
+    async (req: Request, res: Response, next: NextFunction) => {
+        const token = req.headers.authorization
+        if (token) {
+            const jwtPayload = verify(token, 'SECRET_KEY')
+            const userId = jwtPayload.sub
+            const user = await userRepository.findById(String(userId))
+            res.status(StatusCodes.OK).send(user)
         }
     })

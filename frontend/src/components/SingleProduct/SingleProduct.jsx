@@ -4,21 +4,23 @@ import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import { Add, Remove } from '@material-ui/icons';
 import { useParams } from 'react-router-dom';
-
+import { BaseURL } from "../../services/BaseURL";
 
 const SingleProduct = () => {
     const [number, setNumber] = useState(1)
     const { uuid } = useParams()
     const [product, setProduct] = useState({})
 
-    const fetchData = async () => {
-        const response = await fetch(`http://localhost:8000/api/v1/products/${uuid}`)
-        const data = await response.json()
-        setProduct(data)
-    }
-
     useEffect(() => {
-        fetchData()
+        (async (uuid, setProduct) => {
+            const response = await fetch(`${BaseURL}/products/${uuid}`, {
+                headers: {
+                    'Authorization': localStorage.getItem('token'),
+                }
+            })
+            const data = await response.json()
+            setProduct(data)
+        })(uuid, setProduct)
     }, [])
 
     const handleRemove = () => {

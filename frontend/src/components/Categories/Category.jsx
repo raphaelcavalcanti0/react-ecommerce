@@ -2,13 +2,18 @@ import CategoryItem from './CategoryItem';
 import { Container, HeadTitle } from './styles'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { BaseURL } from "../../services/BaseURL";
 
 const Category = () => {
 
     const [categories, setCategories] = useState([])
 
     const fetchData = async () => {
-        const response = await fetch(`http://localhost:8000/api/v1/categories`)
+        const response = await fetch(`${BaseURL}/categories`, {
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+            }
+        })
         const data = await response.json()
         setCategories(data)
     }
